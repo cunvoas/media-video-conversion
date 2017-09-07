@@ -22,7 +22,8 @@ public class ConversionRejectHandler extends Observable implements RejectedExecu
     	if (r instanceof ConversionTask) {
     		ConversionTask task = (ConversionTask)r;
     		setChanged();
-    		notifyObservers(observer);
+    		//notifyObservers(observer);
+    		notifyObservers(task);
     	}
     }
  

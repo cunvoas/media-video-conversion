@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 public class ConversionMonitor implements Observer {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionMonitor.class);
 	
-	private ConversionRejectHandler rejectionHandler = null;
-
 	/**
 	 * Methode invoquee apres notification.
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
@@ -21,9 +19,13 @@ public class ConversionMonitor implements Observer {
 	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof ConversionTask) {
-			ConversionTask item = (ConversionTask)o;
+			ConversionTask task = (ConversionTask)o;
 			
-			LOGGER.info("Video {} converted in {}", item.getVideoFile());
+			if (task.durationBeforeError()<0) {
+				LOGGER.info("Video {} pooled during {} in error in {}", task.getVideoFile(), task.durationQueued(), task.durationBeforeError());
+			} else {
+				LOGGER.info("Video {} pooled during {} converted in {}", task.getVideoFile(), task.durationQueued(), task.durationExec());
+			}
 		}
 	}
 

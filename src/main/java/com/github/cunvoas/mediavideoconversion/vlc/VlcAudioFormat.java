@@ -4,13 +4,13 @@ package com.github.cunvoas.mediavideoconversion.vlc;
  * @author UNVOAS
  * @see https://wiki.videolan.org/MPEG-4/
  */
-public enum AudioFormat {
+public enum VlcAudioFormat {
 	MP4("mp4a"),
 	MPG("mpga"),
 	MP3("mp3");
 	
 	private String format;
-	private AudioFormat(String f) {
+	private VlcAudioFormat(String f) {
 		this.format=f;
 	}
 	/**

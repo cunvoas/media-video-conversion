@@ -14,7 +14,6 @@ import com.github.cunvoas.mediavideoconversion.runner.Exec;
 public class ConversionTask extends Observable implements Runnable {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionTask.class);
 	
-
 	private String executable;
 	private String[] args;
 	private ConversionMonitor observer;
@@ -73,11 +72,17 @@ public class ConversionTask extends Observable implements Runnable {
 	public void run() {
 		
 		try {
-			Exec exec = new Exec();
-			exec.execute(executable, args);
+			this.start();
 			
+			Exec exec = new Exec();
+			String consoleTrace = exec.execute(executable, args);
+			
+			this.end();
+			
+			LOGGER.trace(consoleTrace);
 			
 		} catch (Exception e) {
+			this.stop();
 			LOGGER.error("imprevu", e);
 		} finally {
 			// notification à l'observer

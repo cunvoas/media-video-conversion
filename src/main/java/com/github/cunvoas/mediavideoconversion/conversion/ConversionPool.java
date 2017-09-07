@@ -50,4 +50,16 @@ public class ConversionPool {
 		executor.execute(task);
 	}
 
+	/**
+	 * @see java.lang.Object#finalize()
+	 */
+	@Override
+	protected void finalize() throws Throwable {
+		executor.shutdown();
+		
+		super.finalize();
+	}
+	
+	
+
 }
