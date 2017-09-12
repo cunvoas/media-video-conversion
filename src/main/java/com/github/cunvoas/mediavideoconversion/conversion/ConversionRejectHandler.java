@@ -16,7 +16,9 @@ public class ConversionRejectHandler extends Observable implements RejectedExecu
 		this.observer=observer;
 	}
 	
-    @Override
+    /**
+     * @see java.util.concurrent.RejectedExecutionHandler#rejectedExecution(java.lang.Runnable, java.util.concurrent.ThreadPoolExecutor)
+     */
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
     	
     	if (r instanceof ConversionTask) {

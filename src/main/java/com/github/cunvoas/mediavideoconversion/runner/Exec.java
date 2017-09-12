@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -27,8 +28,11 @@ public class Exec {
 
 		if (FileUtils.getFile(executableBin).isFile()) {
 			try {
-				List<String> prms = Arrays.asList(args);
-				prms.add(0, executableBin);
+				List<String> argsList = Arrays.asList(args);
+				List<String> prms = new ArrayList<String>();						
+				prms.add(executableBin);
+				prms.addAll(argsList);
+				
 				Process process = new ProcessBuilder(prms).start();
 
 				is = process.getInputStream();

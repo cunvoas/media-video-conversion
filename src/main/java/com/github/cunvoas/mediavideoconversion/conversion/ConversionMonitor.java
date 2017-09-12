@@ -16,7 +16,6 @@ public class ConversionMonitor implements Observer {
 	 * Methode invoquee apres notification.
 	 * @see java.util.Observer#update(java.util.Observable, java.lang.Object)
 	 */
-	@Override
 	public void update(Observable o, Object arg) {
 		if (o instanceof ConversionTask) {
 			ConversionTask task = (ConversionTask)o;

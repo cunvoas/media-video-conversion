@@ -19,6 +19,8 @@ public class ConversionTask extends Observable implements Runnable {
 	private ConversionMonitor observer;
 	private String videoFile;
 	
+	private String returnConsole;
+	
 	private long pooled;
 	private long started;
 	private long stopped;
@@ -54,6 +56,12 @@ public class ConversionTask extends Observable implements Runnable {
 		this.observer = observer;
 	}
 
+	/**
+	 * Constructor.
+	 * @param executable
+	 * @param args
+	 * @param videoFile
+	 */
 	public ConversionTask(String executable, String[] args, String videoFile) {
 		super();
 		this.executable=executable;
@@ -68,18 +76,20 @@ public class ConversionTask extends Observable implements Runnable {
 		return videoFile;
 	}
 
-	@Override
+	/**
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run() {
 		
 		try {
 			this.start();
 			
 			Exec exec = new Exec();
-			String consoleTrace = exec.execute(executable, args);
+			returnConsole = exec.execute(executable, args);
 			
 			this.end();
 			
-			LOGGER.trace(consoleTrace);
+			LOGGER.trace(returnConsole);
 			
 		} catch (Exception e) {
 			this.stop();
@@ -90,6 +100,12 @@ public class ConversionTask extends Observable implements Runnable {
 			notifyObservers(observer);
 		}
 		
+	}
+	/**
+	 * @return the returnConsole
+	 */
+	public String getReturnConsole() {
+		return returnConsole;
 	}
 
 }
