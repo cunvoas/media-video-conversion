@@ -1,0 +1,38 @@
+<configuration>
+
+	<property name="LOGDIR" value="."/>
+
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOGDIR}/filename.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rollover daily -->
+			<FileNamePattern>${LOGDIR}/video-conversion.%d{yyyy-MM-dd}.%i.log.gz
+			</FileNamePattern>
+			<MaxHistory>5</MaxHistory>
+			<!-- or whenever the file size reaches 5MB -->
+			<timeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>5MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+		</layout>
+	</appender>
+
+	<logger name="com.github.cunvoas" level="debug" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<root level="debug">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+</configuration>
