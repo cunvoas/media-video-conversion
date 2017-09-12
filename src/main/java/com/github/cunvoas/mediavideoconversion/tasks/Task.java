@@ -1,4 +1,4 @@
-package com.github.cunvoas.mediavideoconversion.conversion;
+package com.github.cunvoas.mediavideoconversion.tasks;
 
 import java.util.Observable;
 
@@ -11,12 +11,12 @@ import com.github.cunvoas.mediavideoconversion.runner.Exec;
  * Classe utilisable en multithread.
  * @author CUNVOAS
  */
-public class ConversionTask extends Observable implements Runnable {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ConversionTask.class);
+public class Task extends Observable implements Runnable {
+	private static final Logger LOGGER = LoggerFactory.getLogger(Task.class);
 	
 	private String executable;
 	private String[] args;
-	private ConversionMonitor observer;
+	private TaskMonitor observer;
 	private String videoFile;
 	
 	private String returnConsole;
@@ -52,7 +52,7 @@ public class ConversionTask extends Observable implements Runnable {
 	/**
 	 * @param observer
 	 */
-	protected void setObserver(ConversionMonitor observer) {
+	protected void setObserver(TaskMonitor observer) {
 		this.observer = observer;
 	}
 
@@ -62,7 +62,7 @@ public class ConversionTask extends Observable implements Runnable {
 	 * @param args
 	 * @param videoFile
 	 */
-	public ConversionTask(String executable, String[] args, String videoFile) {
+	public Task(String executable, String[] args, String videoFile) {
 		super();
 		this.executable=executable;
 		this.args=args;

@@ -1,4 +1,4 @@
-package com.github.cunvoas.mediavideoconversion.conversion;
+package com.github.cunvoas.mediavideoconversion.tasks;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -7,18 +7,18 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-public class ConversionPool {
-	private static final ConversionPool INSTANCE = new ConversionPool();
+public class TaskPool {
+	private static final TaskPool INSTANCE = new TaskPool();
 	public static final int THREAD_POOL_SIZE=16;
 	
 	private ThreadPoolExecutor executor = null;
-	private ConversionMonitor observer=null;
+	private TaskMonitor observer=null;
 	
-	public static ConversionPool getInstance() {
+	public static TaskPool getInstance() {
 		return INSTANCE;
 	}
 
-	private ConversionPool () {
+	private TaskPool () {
 		super();
 		
 		// creation de gestionnaire de threads
@@ -26,8 +26,8 @@ public class ConversionPool {
 		int maxPoolSize = Runtime.getRuntime().availableProcessors();
 
 		// Intercepteur des erreurs durant la conversion
-		observer=new ConversionMonitor();
-		ConversionRejectHandler rejectionHandler = new ConversionRejectHandler(observer);
+		observer=new TaskMonitor();
+		TasklRejectHandler rejectionHandler = new TasklRejectHandler(observer);
 		
 		// Init du pool d'attente
 		ThreadFactory threadFactory = Executors.defaultThreadFactory();
@@ -44,7 +44,7 @@ public class ConversionPool {
 	/**
 	 * @param task
 	 */
-	public void addTask(ConversionTask task) {
+	public void addTask(Task task) {
 		task.setObserver(observer);
 		task.pooled();
 		executor.execute(task);

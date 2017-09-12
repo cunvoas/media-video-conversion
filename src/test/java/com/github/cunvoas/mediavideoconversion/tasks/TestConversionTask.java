@@ -1,4 +1,4 @@
-package com.github.cunvoas.mediavideoconversion.conversion;
+package com.github.cunvoas.mediavideoconversion.tasks;
 
 import java.util.Observer;
 
@@ -9,38 +9,41 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.util.reflection.Whitebox;
 
+import com.github.cunvoas.mediavideoconversion.tasks.TaskMonitor;
+import com.github.cunvoas.mediavideoconversion.tasks.Task;
+
 
 public class TestConversionTask {
 	
-	private ConversionTask tested;
+	private Task tested;
 	
 	@Before
 	public void setup() {
-		tested = new ConversionTask("C:/Windows/SysWOW64/tree.com", new String[]{"/F", "/A"}, "file.video");
+		tested = new Task("C:/Windows/SysWOW64/tree.com", new String[]{"/F", "/A"}, "file.video");
 	}
 
 	@Test
 	public void testPooled() {
 		tested.pooled();
-		Assert.assertEquals("Pooled", System.currentTimeMillis(), (long)Whitebox.getInternalState(tested, "pooled"));
+		Assert.assertEquals("Pooled", Long.valueOf(System.currentTimeMillis()), (Long)Whitebox.getInternalState(tested, "pooled"));
 	}
 
 	@Test
 	public void testStart() {
 		tested.start();
-		Assert.assertEquals("Pooled", System.currentTimeMillis(), (long)Whitebox.getInternalState(tested, "started"));
+		Assert.assertEquals("Pooled", Long.valueOf(System.currentTimeMillis()), (Long)Whitebox.getInternalState(tested, "started"));
 	}
 
 	@Test
 	public void testStop() {
 		tested.stop();
-		Assert.assertEquals("Pooled", System.currentTimeMillis(), (long)Whitebox.getInternalState(tested, "stopped"));
+		Assert.assertEquals("Pooled", Long.valueOf(System.currentTimeMillis()), (Long)Whitebox.getInternalState(tested, "stopped"));
 	}
 
 	@Test
 	public void testEnd() {
 		tested.end();
-		Assert.assertEquals("Pooled", System.currentTimeMillis(), (long)Whitebox.getInternalState(tested, "finished"));
+		Assert.assertEquals("Pooled", Long.valueOf(System.currentTimeMillis()), (Long)Whitebox.getInternalState(tested, "finished"));
 	}
 
 	@Test
@@ -66,7 +69,7 @@ public class TestConversionTask {
 
 	@Test
 	public void testSetObserver() {
-		tested.setObserver(new ConversionMonitor());
+		tested.setObserver(new TaskMonitor());
 		Object obs = Whitebox.getInternalState(tested, "observer");
 				
 		MatcherAssert.assertThat(obs, Matchers.is(Matchers.instanceOf(Observer.class)));
