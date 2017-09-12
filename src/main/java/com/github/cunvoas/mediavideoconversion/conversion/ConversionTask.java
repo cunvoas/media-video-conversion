@@ -54,6 +54,12 @@ public class ConversionTask extends Observable implements Runnable {
 		this.observer = observer;
 	}
 
+	/**
+	 * Constructor.
+	 * @param executable
+	 * @param args
+	 * @param videoFile
+	 */
 	public ConversionTask(String executable, String[] args, String videoFile) {
 		super();
 		this.executable=executable;
@@ -68,7 +74,9 @@ public class ConversionTask extends Observable implements Runnable {
 		return videoFile;
 	}
 
-	@Override
+	/**
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run() {
 		
 		try {

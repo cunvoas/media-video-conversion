@@ -55,7 +55,7 @@ public class ConversionPool {
 	 */
 	@Override
 	protected void finalize() throws Throwable {
-		executor.shutdown();
+		executor.shutdownNow();
 		
 		super.finalize();
 	}
