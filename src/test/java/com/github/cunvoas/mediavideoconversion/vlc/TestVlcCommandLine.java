@@ -15,7 +15,7 @@ public class TestVlcCommandLine {
 
 	@Test
 	public void testProduce() {
-		String[] args = tested.produce("src.vid", "dst.vid", VlcVideoFormat.H264.getCodec(), VlcAudioFormat.MP3.getValue(), 1000, 192);
+		String[] args = tested.produce("src.vid", "dst.vid", VlcVideoFormat.H264.getCodec(), VlcAudioFormat.MP3.getValue(), 1000, 192, 44100);
 		
 		Assert.assertEquals ("nb args", 4, args.length);
 		
