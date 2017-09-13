@@ -7,7 +7,12 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
 public class TaskPool {
+	private static final Logger LOGGER = LoggerFactory .getLogger(TaskPool.class);
 	private static final TaskPool INSTANCE = new TaskPool();
 	public static final int THREAD_POOL_SIZE=16;
 	
@@ -23,7 +28,7 @@ public class TaskPool {
 		
 		// creation de gestionnaire de threads
 		// n CPU = n Threads
-		int maxPoolSize = Runtime.getRuntime().availableProcessors();
+		int maxPoolSize = Math.max(1, Runtime.getRuntime().availableProcessors()-1);
 
 		// Intercepteur des erreurs durant la conversion
 		observer=new TaskMonitor();
@@ -34,11 +39,20 @@ public class TaskPool {
 		BlockingQueue<Runnable> queue = new ArrayBlockingQueue<Runnable>(THREAD_POOL_SIZE);
 		
 		// Executor pool multithread
-		executor = new ThreadPoolExecutor(maxPoolSize, maxPoolSize, 2, TimeUnit.HOURS, 
+		executor = new ThreadPoolExecutor(1, maxPoolSize, 12, TimeUnit.HOURS, 
 				queue, threadFactory, rejectionHandler);
 		
 		// on démarre de suite
 		executor.prestartAllCoreThreads();
+		
+		
+		while (! executor.isTerminated()) {
+			 try {
+                 Thread.sleep(10000);
+             } catch (InterruptedException e) {
+                 LOGGER.error("Sleep Exception");
+             }
+		}
 	}
 	
 	/**
@@ -58,6 +72,13 @@ public class TaskPool {
 		executor.shutdownNow();
 		
 		super.finalize();
+	}
+	
+	/**
+	 * shutdown
+	 */
+	public void shutdown() {
+		executor.shutdown();
 	}
 	
 	
