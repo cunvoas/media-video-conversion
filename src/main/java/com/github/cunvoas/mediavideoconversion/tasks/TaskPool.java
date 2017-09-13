@@ -46,13 +46,13 @@ public class TaskPool {
 		executor.prestartAllCoreThreads();
 		
 		
-		while (! executor.isTerminated()) {
-			 try {
-                 Thread.sleep(10000);
-             } catch (InterruptedException e) {
-                 LOGGER.error("Sleep Exception");
-             }
-		}
+//		while (! executor.isTerminated()) {
+//			 try {
+//                 Thread.sleep(10000);
+//             } catch (InterruptedException e) {
+//                 LOGGER.error("Sleep Exception");
+//             }
+//		}
 	}
 	
 	/**

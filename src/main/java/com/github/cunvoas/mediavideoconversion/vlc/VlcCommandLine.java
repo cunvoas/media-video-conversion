@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class VlcCommandLine {
 	
-	public String[] produce(String srcFile, String dstFile, String vcodec, String acodec, int vBitrate, int aBitrate) {
+	public String[] produce(String srcFile, String dstFile, String vcodec, String acodec, int vBitrate, int aBitrate, int aSampleRate) {
 		
 		List<String> args = new ArrayList<String>();
 		args.add("-I dummy");
 		//args.add("-vvv");
 		args.add(srcFile);
-		args.add(transcode(vcodec, acodec, dstFile, vBitrate, aBitrate, 44100));
+		args.add(transcode(vcodec, acodec, dstFile, vBitrate, aBitrate, aSampleRate));
 		
 		args.add("vlc://quit");
 		
@@ -39,7 +39,8 @@ public class VlcCommandLine {
 		
 		sb.append(",channels=2,deinterlace");
 		sb.append(":standard{access=file");//,mux=ts
-		sb.append(",dst=").append(dstFile).append("}");
+		sb.append(",mux=ts");//.append(String.valueOf(vBitrate));
+		sb.append(",dst=\"").append(dstFile).append("\"}");
 		
 		return sb.toString();
 	}

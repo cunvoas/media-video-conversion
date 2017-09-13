@@ -89,7 +89,7 @@ public class Task extends Observable implements Runnable {
 			
 			this.end();
 			
-			LOGGER.trace(returnConsole);
+			LOGGER.info(returnConsole);
 			
 		} catch (Exception e) {
 			this.stop();
